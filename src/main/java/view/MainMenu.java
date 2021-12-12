@@ -20,6 +20,14 @@ public class MainMenu extends JPanel {
     private ImageIcon titleImage;
     private GridBagLayout gridBagLayout;
     private GridBagConstraints gridBagConstraints;
+    private ImageIcon buttonStartImage1;
+    private ImageIcon buttonStartImage2;
+    private ImageIcon buttonSettingsImage1;
+    private ImageIcon buttonSettingsImage2;
+    private ImageIcon buttonTopPlayersImage1;
+    private ImageIcon buttonTopPlayersImage2;
+    private ImageIcon buttonExitImage1;
+    private ImageIcon buttonExitImage2;
 
     public MainMenu(JFrame mainFrame, Data data) throws IOException {
         super();
@@ -28,13 +36,6 @@ public class MainMenu extends JPanel {
 
         setLayout(null);
         setBounds(0, 0, 200, 200);
-//        title.setIcon();
-//        gridBagLayout = new GridBagLayout();
-//        gridBagConstraints = new GridBagConstraints();
-//        gridBagConstraints.fill = SwingConstants.NORTH;
-//        gridBagLayout.setConstraints(this, gridBagConstraints);
-//        setLayout(gridBagLayout);
-
         setPreferredSize(new Dimension(200, 200));
         setVisible(true);
 
@@ -47,6 +48,14 @@ public class MainMenu extends JPanel {
     public void initializeImages() {
         backGroundImage = new ImageIcon("background-image.jpg").getImage();
         titleImage = new ImageIcon("title.png");
+        buttonStartImage1 = new ImageIcon("button_start1.png");
+        buttonStartImage2 = new ImageIcon("button_start2.png");
+        buttonSettingsImage1 = new ImageIcon("button_settings1.png");
+        buttonSettingsImage2 = new ImageIcon("button_settings2.png");
+        buttonTopPlayersImage1 = new ImageIcon("button_topplayers1.png");
+        buttonTopPlayersImage2 = new ImageIcon("button_topplayers2.png");
+        buttonExitImage1 = new ImageIcon("button_exit1.png");
+        buttonExitImage2 = new ImageIcon("button_exit2.png");
     }
 
     public void initializeLabels() {
@@ -55,17 +64,29 @@ public class MainMenu extends JPanel {
     }
 
     public void initializeButtons() {
-        startButton = new JButton("Start");
-        startButton.setBounds(550, 160, 100, 30);
+        startButton = new JButton(buttonStartImage1);
+        startButton.setBounds(450, 160, 400, 100);
+        startButton.setBackground(Color.BLACK);
+        startButton.setBorderPainted(false);
+        startButton.setFocusPainted(false);
 //        startButton.setSize(30, 2);
-        settingsButton = new JButton("Settings");
-        settingsButton.setBounds(550, 210, 100, 30);
+        settingsButton = new JButton(buttonSettingsImage1);
+        settingsButton.setBounds(450, 260, 400, 100);
+        settingsButton.setBackground(Color.BLACK);
+        settingsButton.setBorderPainted(false);
+        settingsButton.setFocusPainted(false);
 //        settingsButton.setSize(30, 2);
-        topPlayersButton = new JButton("Top Players");
-        topPlayersButton.setBounds(550, 260, 100, 30);
+        topPlayersButton = new JButton(buttonTopPlayersImage1);
+        topPlayersButton.setBounds(450, 360, 400, 100);
+        topPlayersButton.setBackground(Color.BLACK);
+        topPlayersButton.setBorderPainted(false);
+        topPlayersButton.setFocusPainted(false);
 //        topPlayersButton.setSize(30, 2);
-        exitButton = new JButton("Exit");
-        exitButton.setBounds(550, 310, 100, 30);
+        exitButton = new JButton(buttonExitImage1);
+        exitButton.setBounds(450, 460, 400, 100);
+        exitButton.setBackground(Color.BLACK);
+        exitButton.setBorderPainted(false);
+        exitButton.setFocusPainted(false);
 //        exitButton.setSize(30, 2);
     }
 
@@ -80,27 +101,10 @@ public class MainMenu extends JPanel {
 
         title.setFont(font);
 
-//        gridBagConstraints.insets = new Insets(5, 2, 40, 2);
-
-//        gridBagConstraints.gridx = 20;
-//        gridBagConstraints.gridy = 0;
-
         this.add(title);
-//        gridBagConstraints.gridx = 30;
-//        gridBagConstraints.gridy = 1;
-
         this.add(startButton);
-//        gridBagConstraints.gridx = 30;
-//        gridBagConstraints.gridy = 2;
-
         this.add(settingsButton);
-//        gridBagConstraints.gridx = 30;
-//        gridBagConstraints.gridy = 3;
-
         this.add(topPlayersButton);
-
-//        gridBagConstraints.gridx = 30;
-//        gridBagConstraints.gridy = 4;
         this.add(exitButton);
     }
 }
