@@ -25,15 +25,16 @@ public class MainMenu extends JPanel {
         super();
         this.mainFrame = mainFrame;
         this.data = data;
-        title = new JLabel(titleImage, SwingConstants.CENTER);
+
+        setLayout(null);
+        setBounds(0, 0, 200, 200);
 //        title.setIcon();
-        gridBagLayout = new GridBagLayout();
-        gridBagConstraints = new GridBagConstraints();
-        gridBagConstraints.fill = SwingConstants.NORTH;
-        gridBagLayout.setConstraints(this, gridBagConstraints);
+//        gridBagLayout = new GridBagLayout();
+//        gridBagConstraints = new GridBagConstraints();
+//        gridBagConstraints.fill = SwingConstants.NORTH;
+//        gridBagLayout.setConstraints(this, gridBagConstraints);
+//        setLayout(gridBagLayout);
 
-
-        setLayout(gridBagLayout);
         setPreferredSize(new Dimension(200, 200));
         setVisible(true);
 
@@ -50,21 +51,21 @@ public class MainMenu extends JPanel {
 
     public void initializeLabels() {
         title = new JLabel(titleImage);
-        title.setVerticalAlignment(JLabel.TOP);
+        title.setBounds(40, 0, 800, 200);
     }
 
     public void initializeButtons() {
         startButton = new JButton("Start");
-        startButton.setHorizontalAlignment(JButton.CENTER);
+        startButton.setBounds(550, 160, 100, 30);
 //        startButton.setSize(30, 2);
         settingsButton = new JButton("Settings");
-        settingsButton.setHorizontalAlignment(JButton.CENTER);
+        settingsButton.setBounds(550, 210, 100, 30);
 //        settingsButton.setSize(30, 2);
         topPlayersButton = new JButton("Top Players");
-        topPlayersButton.setHorizontalAlignment(JButton.CENTER);
+        topPlayersButton.setBounds(550, 260, 100, 30);
 //        topPlayersButton.setSize(30, 2);
         exitButton = new JButton("Exit");
-        exitButton.setHorizontalAlignment(JButton.CENTER);
+        exitButton.setBounds(550, 310, 100, 30);
 //        exitButton.setSize(30, 2);
     }
 
@@ -79,29 +80,27 @@ public class MainMenu extends JPanel {
 
         title.setFont(font);
 
-        gridBagConstraints.insets = new Insets(5, 2, 40, 2);
+//        gridBagConstraints.insets = new Insets(5, 2, 40, 2);
 
-        gridBagConstraints.gridx = 20;
-        gridBagConstraints.gridy = 0;
+//        gridBagConstraints.gridx = 20;
+//        gridBagConstraints.gridy = 0;
 
-        this.setAlignmentX(2);
-        this.setAlignmentY(2);
-        this.add(title, gridBagConstraints);
-        gridBagConstraints.gridx = 30;
-        gridBagConstraints.gridy = 1;
+        this.add(title);
+//        gridBagConstraints.gridx = 30;
+//        gridBagConstraints.gridy = 1;
 
-        this.add(startButton, gridBagConstraints);
-        gridBagConstraints.gridx = 30;
-        gridBagConstraints.gridy = 2;
+        this.add(startButton);
+//        gridBagConstraints.gridx = 30;
+//        gridBagConstraints.gridy = 2;
 
-        this.add(settingsButton, gridBagConstraints);
-        gridBagConstraints.gridx = 30;
-        gridBagConstraints.gridy = 3;
+        this.add(settingsButton);
+//        gridBagConstraints.gridx = 30;
+//        gridBagConstraints.gridy = 3;
 
-        this.add(topPlayersButton, gridBagConstraints);
+        this.add(topPlayersButton);
 
-        gridBagConstraints.gridx = 30;
-        gridBagConstraints.gridy = 4;
-        this.add(exitButton, gridBagConstraints);
+//        gridBagConstraints.gridx = 30;
+//        gridBagConstraints.gridy = 4;
+        this.add(exitButton);
     }
 }
