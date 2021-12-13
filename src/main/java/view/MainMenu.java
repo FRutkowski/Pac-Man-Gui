@@ -4,22 +4,25 @@ import model.Data;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 
-public class MainMenu extends JPanel {
+public class MainMenu extends JPanel implements ActionListener {
 
     private JFrame mainFrame;
+    private JLabel title;
+
+    private Graphics2D g2d;
+    private Data data;
+
     private JButton startButton;
     private JButton settingsButton;
     private JButton topPlayersButton;
     private JButton exitButton;
-    private Graphics2D g2d;
-    private JLabel title;
-    private Data data;
+
     private Image backGroundImage;
     private ImageIcon titleImage;
-    private GridBagLayout gridBagLayout;
-    private GridBagConstraints gridBagConstraints;
     private ImageIcon buttonStartImage1;
     private ImageIcon buttonStartImage2;
     private ImageIcon buttonSettingsImage1;
@@ -28,6 +31,9 @@ public class MainMenu extends JPanel {
     private ImageIcon buttonTopPlayersImage2;
     private ImageIcon buttonExitImage1;
     private ImageIcon buttonExitImage2;
+
+    private SettingsMenu settingsMenu;
+    private TopPlayersMenu topPlayersMenu;
 
     public MainMenu(JFrame mainFrame, Data data) throws IOException {
         super();
@@ -100,11 +106,26 @@ public class MainMenu extends JPanel {
         Font font = new Font("Calibri", Font.BOLD, 26);
 
         title.setFont(font);
-
         this.add(title);
         this.add(startButton);
         this.add(settingsButton);
         this.add(topPlayersButton);
         this.add(exitButton);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent event) {
+        Object source = event.getSource();
+
+        if (event.getSource() == settingsButton) {
+            if (settingsMenu == null) {
+                System.out.println("wgl tu jestem?");
+                settingsMenu = new SettingsMenu();
+                this.setVisible(false);
+                mainFrame.add(settingsMenu);
+            } else {
+                //TODO przełączamy widok
+            }
+        }
     }
 }
