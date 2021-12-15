@@ -38,19 +38,19 @@ public class SettingsMenu extends JPanel implements ActionListener {
 
 
     public void initializeImages() {
-        backGroundImage = new ImageIcon("background-image.jpg").getImage();
-        buttonEasyImage1 = new ImageIcon("button_easy.png");
-        buttonEasyImage2 = new ImageIcon("button_easy1.png");
-        buttonMediumImage1 = new ImageIcon("button_medium.png");
-        buttonMediumImage2 = new ImageIcon("button_medium1.png");
-        buttonHardImage1 = new ImageIcon("button_hard.png");
-        buttonHardImage2 = new ImageIcon("button_hard1.png");
-        buttonSoundOn1 = new ImageIcon("button_sound-on.png");
-        buttonSoundOn2 = new ImageIcon("button_sound-on1.png");
-        buttonSoundOff1 = new ImageIcon("button_sound-off.png");
-        buttonSoundOff2 = new ImageIcon("button_sound-off1.png");
-        buttonBack1 = new ImageIcon("button_back.png");
-        buttonBack2 = new ImageIcon("button_back1.png");
+        backGroundImage = new ImageIcon("src/main/resources/images/background-image.jpg").getImage();
+        buttonEasyImage1 = new ImageIcon("src/main/resources/images/button_easy.png");
+        buttonEasyImage2 = new ImageIcon("src/main/resources/images/button_easy1.png");
+        buttonMediumImage1 = new ImageIcon("src/main/resources/images/button_medium.png");
+        buttonMediumImage2 = new ImageIcon("src/main/resources/images/button_medium1.png");
+        buttonHardImage1 = new ImageIcon("src/main/resources/images/button_hard.png");
+        buttonHardImage2 = new ImageIcon("src/main/resources/images/button_hard1.png");
+        buttonSoundOn1 = new ImageIcon("src/main/resources/images/button_sound-on.png");
+        buttonSoundOn2 = new ImageIcon("src/main/resources/images/button_sound-on1.png");
+        buttonSoundOff1 = new ImageIcon("src/main/resources/images/button_sound-off.png");
+        buttonSoundOff2 = new ImageIcon("src/main/resources/images/button_sound-off1.png");
+        buttonBack1 = new ImageIcon("src/main/resources/images/button_back.png");
+        buttonBack2 = new ImageIcon("src/main/resources/images/button_back1.png");
     }
 
     public void initializeLabels() {

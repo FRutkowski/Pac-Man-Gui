@@ -52,16 +52,16 @@ public class MainMenu extends JPanel implements ActionListener {
     }
 
     public void initializeImages() {
-        backGroundImage = new ImageIcon("background-image.jpg").getImage();
-        titleImage = new ImageIcon("title.png");
-        buttonStartImage1 = new ImageIcon("button_start1.png");
-        buttonStartImage2 = new ImageIcon("button_start2.png");
-        buttonSettingsImage1 = new ImageIcon("button_settings1.png");
-        buttonSettingsImage2 = new ImageIcon("button_settings2.png");
-        buttonTopPlayersImage1 = new ImageIcon("button_topplayers1.png");
-        buttonTopPlayersImage2 = new ImageIcon("button_topplayers2.png");
-        buttonExitImage1 = new ImageIcon("button_exit1.png");
-        buttonExitImage2 = new ImageIcon("button_exit2.png");
+        backGroundImage = new ImageIcon("src/main/resources/images/background-image.jpg").getImage();
+        titleImage = new ImageIcon("src/main/resources/images/title.png");
+        buttonStartImage1 = new ImageIcon("src/main/resources/images/button_start1.png");
+        buttonStartImage2 = new ImageIcon("src/main/resources/images/button_start2.png");
+        buttonSettingsImage1 = new ImageIcon("src/main/resources/images/button_settings1.png");
+        buttonSettingsImage2 = new ImageIcon("src/main/resources/images/button_settings2.png");
+        buttonTopPlayersImage1 = new ImageIcon("src/main/resources/images/button_topplayers1.png");
+        buttonTopPlayersImage2 = new ImageIcon("src/main/resources/images/button_topplayers2.png");
+        buttonExitImage1 = new ImageIcon("src/main/resources/images/button_exit1.png");
+        buttonExitImage2 = new ImageIcon("src/main/resources/images/button_exit2.png");
     }
 
     public void initializeLabels() {
@@ -112,6 +112,8 @@ public class MainMenu extends JPanel implements ActionListener {
         this.add(topPlayersButton);
         this.add(exitButton);
     }
+
+
 
     @Override
     public void actionPerformed(ActionEvent event) {
