@@ -12,7 +12,7 @@ public class MainFrame extends JFrame {
         Data data = new Data();
         MainMenu mainMenuPanel = new MainMenu(this, data);
         add(mainMenuPanel);
-        setPreferredSize(new Dimension(900, 630));
+        setPreferredSize(new Dimension(950, 630));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setVisible(true);

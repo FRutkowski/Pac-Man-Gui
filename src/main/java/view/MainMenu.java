@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-public class MainMenu extends JPanel implements ActionListener {
+public class MainMenu extends JPanel {
 
     private JFrame mainFrame;
     private JLabel title;
@@ -42,7 +42,6 @@ public class MainMenu extends JPanel implements ActionListener {
 
         setLayout(null);
         setBounds(0, 0, 200, 200);
-        setPreferredSize(new Dimension(200, 200));
         setVisible(true);
 
         initializeImages();
@@ -66,7 +65,7 @@ public class MainMenu extends JPanel implements ActionListener {
 
     public void initializeLabels() {
         title = new JLabel(titleImage);
-        title.setBounds(40, 0, 800, 200);
+        title.setBounds(40, 0, 900, 200);
     }
 
     public void initializeButtons() {
@@ -75,26 +74,36 @@ public class MainMenu extends JPanel implements ActionListener {
         startButton.setBackground(Color.BLACK);
         startButton.setBorderPainted(false);
         startButton.setFocusPainted(false);
-//        startButton.setSize(30, 2);
+        startButton.addActionListener(event -> {
+            toggleViewToGame();
+        });
+
         settingsButton = new JButton(buttonSettingsImage1);
         settingsButton.setBounds(450, 260, 400, 100);
         settingsButton.setBackground(Color.BLACK);
         settingsButton.setBorderPainted(false);
         settingsButton.setFocusPainted(false);
-//        settingsButton.setSize(30, 2);
+        settingsButton.addActionListener(event -> {
+            toggleViewToSettingsMenu();
+        });
+
         topPlayersButton = new JButton(buttonTopPlayersImage1);
         topPlayersButton.setBounds(450, 360, 400, 100);
         topPlayersButton.setBackground(Color.BLACK);
         topPlayersButton.setBorderPainted(false);
         topPlayersButton.setFocusPainted(false);
-//        topPlayersButton.setSize(30, 2);
+        topPlayersButton.addActionListener(event -> {
+            toggleViewToTopPlayersMenu();
+        });
+
         exitButton = new JButton(buttonExitImage1);
         exitButton.setBounds(450, 460, 400, 100);
         exitButton.setBackground(Color.BLACK);
         exitButton.setBorderPainted(false);
         exitButton.setFocusPainted(false);
-//        exitButton.setSize(30, 2);
+        exitButton.addActionListener(event -> { System.exit(0); });
     }
+
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -103,9 +112,6 @@ public class MainMenu extends JPanel implements ActionListener {
     }
 
     public void paintComponents() {
-        Font font = new Font("Calibri", Font.BOLD, 26);
-
-        title.setFont(font);
         this.add(title);
         this.add(startButton);
         this.add(settingsButton);
@@ -113,21 +119,23 @@ public class MainMenu extends JPanel implements ActionListener {
         this.add(exitButton);
     }
 
+    private void toggleViewToSettingsMenu() {
+        this.setVisible(false);
+        if (settingsMenu == null) {
+            settingsMenu = new SettingsMenu(this, mainFrame, data);
+            mainFrame.add(settingsMenu);
+        } else settingsMenu.setVisible(true);
+    }
 
+    private void toggleViewToTopPlayersMenu() {
+        this.setVisible(false);
+        if (topPlayersMenu == null) {
+            topPlayersMenu = new TopPlayersMenu(this, mainFrame, data);
+            mainFrame.add(topPlayersMenu);
+        } else topPlayersMenu.setVisible(true);
+    }
 
-    @Override
-    public void actionPerformed(ActionEvent event) {
-        Object source = event.getSource();
+    private void toggleViewToGame() {
 
-        if (event.getSource() == settingsButton) {
-            if (settingsMenu == null) {
-                System.out.println("wgl tu jestem?");
-                settingsMenu = new SettingsMenu();
-                this.setVisible(false);
-                mainFrame.add(settingsMenu);
-            } else {
-                //TODO przełączamy widok
-            }
-        }
     }
 }
