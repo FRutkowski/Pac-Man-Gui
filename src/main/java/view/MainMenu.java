@@ -136,6 +136,7 @@ public class MainMenu extends JPanel {
     }
 
     private void toggleViewToGame() {
-
+        this.setVisible(false);
+        mainFrame.add(new Game(this, mainFrame, data));
     }
 }
