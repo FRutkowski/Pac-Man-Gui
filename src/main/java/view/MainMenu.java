@@ -1,6 +1,8 @@
 package view;
 
+import controller.GameController;
 import model.Data;
+import model.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -34,6 +36,9 @@ public class MainMenu extends JPanel {
 
     private SettingsMenu settingsMenu;
     private TopPlayersMenu topPlayersMenu;
+
+    private GameController gameController;
+    private Player player;
 
     public MainMenu(JFrame mainFrame, Data data) throws IOException {
         super();
@@ -136,7 +141,15 @@ public class MainMenu extends JPanel {
     }
 
     private void toggleViewToGame() {
+        mainFrame.repaint();
         this.setVisible(false);
-        mainFrame.add(new Game(this, mainFrame, data));
+
+        player = new Player();
+        Game game = new Game(this, mainFrame, data);
+
+        mainFrame.add(game);
+        gameController = new GameController(game, data, player);
+        gameController.startGame();
     }
+
 }
