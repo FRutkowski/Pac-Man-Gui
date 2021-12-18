@@ -149,6 +149,7 @@ public class MainMenu extends JPanel {
         this.setVisible(false);
 
         player = new Player();
+
         Game game = new Game(this, mainFrame, data);
 
         mainFrame.add(game);
