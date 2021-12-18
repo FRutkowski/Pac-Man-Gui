@@ -31,15 +31,18 @@ public class GameController implements Runnable {
     public void update() {
         while (gameThread != null) {
             if (keyHandler.isUpPressed()) {
+                player.setDirection(Direction.UP);
 
             }
             if (keyHandler.isDownPressed()) {
-
+                player.setDirection(Direction.DOWN);
             }
             if (keyHandler.isRightPressed()) {
+                player.setDirection(Direction.RIGHT);
 
             }
             if (keyHandler.isLeftPressed()) {
+                player.setDirection(Direction.LEFT);
 
             }
         }

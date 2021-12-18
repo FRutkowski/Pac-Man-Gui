@@ -80,7 +80,11 @@ public class MainMenu extends JPanel {
         startButton.setBorderPainted(false);
         startButton.setFocusPainted(false);
         startButton.addActionListener(event -> {
-            toggleViewToGame();
+            try {
+                toggleViewToGame();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
 
         settingsButton = new JButton(buttonSettingsImage1);
@@ -140,7 +144,7 @@ public class MainMenu extends JPanel {
         } else topPlayersMenu.setVisible(true);
     }
 
-    private void toggleViewToGame() {
+    private void toggleViewToGame() throws IOException {
         mainFrame.repaint();
         this.setVisible(false);
 
