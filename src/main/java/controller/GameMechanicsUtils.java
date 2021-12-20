@@ -15,7 +15,7 @@ import java.util.*;
 public class GameMechanicsUtils {
 
     public static boolean canGoTo(int row, int col, int[][] map) {
-        if (col > 50) return true;
+        if (col > 25) return true;
         if (col < 0) return true;
         if (map[row][col] != 0 && map[row][col] != 3) {
             return true;

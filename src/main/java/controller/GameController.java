@@ -42,6 +42,9 @@ public class GameController implements Runnable {
     @Override
     public void run() {
         map[17][21] = 6;
+        map[11][14] = 14;
+        map[11][13] = 20;
+        map[11][11] = 25;
 //        data.setMap(map);
 
         while (gameThread != null) {
@@ -71,8 +74,8 @@ public class GameController implements Runnable {
             if (keyHandler.isLeftPressed()) {
                 movePacManLeft();
             }
+        Thread.sleep(500);
         game.repaint();
-        Thread.sleep(100);
     }
 
     public static BufferedImage getDirectionImage(Player player) {
