@@ -20,7 +20,10 @@ public class GameController implements Runnable {
         this.game = game;
         this.data = data;
         this.player = player;
-        this.keyHandler = data.getKeyHandler();
+        this.keyHandler = new KeyHandler();
+        game.addKeyListener(keyHandler);
+        game.setFocusable(true);
+        game.requestFocus();
         loadMap(data);
     }
 
@@ -35,6 +38,7 @@ public class GameController implements Runnable {
     }
 
     public void update() {
+        game.addKeyListener(keyHandler);
         while (gameThread != null) {
             if (keyHandler.isUpPressed()) {
                 player.setDirection(Direction.UP);

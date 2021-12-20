@@ -9,6 +9,8 @@ import model.Player;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -45,6 +47,7 @@ public class Game extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         g2d = (Graphics2D) g;
+        System.out.println("hello there");
         if (drawMap) {
             g2d.setBackground(Color.BLACK);
             g2d.setColor(Color.BLACK);
@@ -76,4 +79,6 @@ public class Game extends JPanel {
 //        g2d.drawImage(block, 40, 65, 25, 25, null);
 //        g2d.drawImage(block, 40, 90, 25, 25, null);
     }
+
+
 }
