@@ -60,36 +60,19 @@ public class GameController implements Runnable {
 //            #00ffab
             isArrowPressed = false;
             if (keyHandler.isUpPressed()) {
-                if (GameMechanicsUtils.canGoTo(player.getRow() - 1, player.getColumn(), mapElements)) {
-                    player.addPoints(GameMechanicsUtils.calculatePoints(player.getRow() - 1, player.getColumn(), map));
-                    if (map[player.getRow()][player.getColumn()] != 4) {
-                        map[player.getRow() - 1][player.getColumn()] = 4;
-                    } else {
-                        map[player.getRow() - 1][player.getColumn()] = 8;
-                    }
-                    System.out.println("coś się zmieniło?");
-
-                    map[player.getRow()][player.getColumn()] = 9;
-                    mapElements[player.getRow()][player.getColumn()] = 9;
-                    player.setRow(player.getRow() - 1);
-                    data.setMap(map);
-                    game.repaint();
-//                    data.getGame().refreshMap(player.getRow() + 1, player.getColumn(), pacManCurrentPosition.getRow(), pacManCurrentPosition.getColumn(), map);
-//                    Thread.sleep(100);
-                }
-
-                isArrowPressed = true;
+                movePacManUp();
             }
             if (keyHandler.isDownPressed()) {
-                player.setDirection(Direction.DOWN);
+                movePacManDown();
             }
             if (keyHandler.isRightPressed()) {
-                player.setDirection(Direction.RIGHT);
+                movePacManRight();
             }
             if (keyHandler.isLeftPressed()) {
-                player.setDirection(Direction.LEFT);
+                movePacManLeft();
             }
-            Thread.sleep(100);
+        game.repaint();
+        Thread.sleep(100);
     }
 
     public static BufferedImage getDirectionImage(Player player) {
@@ -127,4 +110,100 @@ public class GameController implements Runnable {
         }
         return map;
     }
+
+    public void movePacManUp() {
+        if (GameMechanicsUtils.canGoTo(player.getRow() - 1, player.getColumn(), mapElements)) {
+            player.addPoints(GameMechanicsUtils.calculatePoints(player.getRow() - 1, player.getColumn(), map));
+            if (map[player.getRow()][player.getColumn()] != 4) {
+                map[player.getRow() - 1][player.getColumn()] = 4;
+            } else {
+                map[player.getRow() - 1][player.getColumn()] = 8;
+            }
+
+            map[player.getRow()][player.getColumn()] = 9;
+            mapElements[player.getRow()][player.getColumn()] = 9;
+            player.setRow(player.getRow() - 1);
+            isArrowPressed = true;
+        }
+    }
+
+    public void movePacManDown() {
+        if (GameMechanicsUtils.canGoTo(player.getRow() + 1, player.getColumn(), map)) {
+            player.addPoints(GameMechanicsUtils.calculatePoints(player.getRow() + 1, player.getColumn(), mapElements));
+
+            if (map[player.getRow()][player.getColumn()] != 4) {
+                map[player.getRow() + 1][player.getColumn()] = 4;
+            } else {
+                 map[player.getRow() + 1][player.getColumn()] = 7;
+            }
+
+            map[player.getRow()][player.getColumn()] = 9;
+            mapElements[player.getRow()][player.getColumn()] = 9;
+            player.setRow(player.getRow() + 1);
+            isArrowPressed = true;
+        }
+    }
+
+    public void movePacManRight() {
+        if (GameMechanicsUtils.canGoTo(player.getRow(), player.getColumn() + 1, map)) {
+            if (player.getColumn() == 25) {
+                player.addPoints(GameMechanicsUtils.calculatePoints(player.getRow(), 0, mapElements));
+
+                if (map[player.getRow()][player.getColumn()] != 4) {
+                    map[player.getRow()][0] = 4;
+                } else {
+                    map[player.getRow()][0] = 6;
+                }
+
+                map[player.getRow()][player.getColumn()] = 9;
+                mapElements[player.getRow()][player.getColumn()] = 9;
+                player.setColumn(0);
+            } else {
+                player.addPoints(GameMechanicsUtils.calculatePoints(player.getRow(), player.getColumn() + 1, mapElements));
+
+                if (map[player.getRow()][player.getColumn()] != 4) {
+                    map[player.getRow()][player.getColumn() + 1] = 4;
+                } else {
+                    map[player.getRow()][player.getColumn() + 1] = 6;
+                }
+
+                map[player.getRow()][player.getColumn()] = 9;
+                mapElements[player.getRow()][player.getColumn()] = 9;
+                player.setColumn(player.getColumn() + 1);
+            }
+            isArrowPressed = true;
+        }
+    }
+
+    public void movePacManLeft() {
+        if (GameMechanicsUtils.canGoTo(player.getRow(), player.getColumn() - 1, map)) {
+            if (player.getColumn() == 0) {
+                player.addPoints(GameMechanicsUtils.calculatePoints(player.getRow(), 25, mapElements));
+
+                if (map[player.getRow()][player.getColumn()] != 4) {
+                    map[player.getRow()][25] = 4;
+                } else {
+                    map[player.getRow()][25] = 5;
+                }
+
+                map[player.getRow()][player.getColumn()] = 9;
+                mapElements[player.getRow()][player.getColumn()] = 9;
+                player.setColumn(25);
+            } else {
+                player.addPoints(GameMechanicsUtils.calculatePoints(player.getRow(), player.getColumn() - 1, mapElements));
+
+                if (map[player.getRow()][player.getColumn()] != 4) {
+                    map[player.getRow()][player.getColumn() - 1] = 4;
+                } else {
+                    map[player.getRow()][player.getColumn() - 1] = 5;
+                }
+
+                map[player.getRow()][player.getColumn()] = 9;
+                mapElements[player.getRow()][player.getColumn()] = 9;
+                player.setColumn(player.getColumn() - 1);
+            }
+            isArrowPressed = true;
+        }
+    }
+
 }
