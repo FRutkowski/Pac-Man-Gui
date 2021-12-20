@@ -15,6 +15,8 @@ public class GameController implements Runnable {
     private Player player;
     private Thread gameThread;
     private KeyHandler keyHandler;
+    private int[][] mapElements;
+    private int[][] map;
 
     public GameController(Game game, Data data, Player player) throws FileNotFoundException {
         this.game = game;
@@ -24,7 +26,11 @@ public class GameController implements Runnable {
         game.addKeyListener(keyHandler);
         game.setFocusable(true);
         game.requestFocus();
-        loadMap(data);
+        map = loadMap();
+        data.setMap(map);
+        mapElements = loadMap();
+        data.setMapElements(mapElements);
+
     }
 
     public void startGame() {
@@ -34,12 +40,22 @@ public class GameController implements Runnable {
 
     @Override
     public void run() {
-        update();
+        while (gameThread != null) {
+            try {
+                update();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    public void update() {
-        game.addKeyListener(keyHandler);
-        while (gameThread != null) {
+    public void update() throws InterruptedException {
+            map[17][21] = 5;
+//            f600ff kolor różowy
+//            #ff8d00 kolor pomarańczowy
+//            ff0000 kolor czerwony
+//            #00ffab
+
             if (keyHandler.isUpPressed()) {
                 player.setDirection(Direction.UP);
             }
@@ -52,7 +68,7 @@ public class GameController implements Runnable {
             if (keyHandler.isLeftPressed()) {
                 player.setDirection(Direction.LEFT);
             }
-        }
+            Thread.sleep(100);
     }
 
     public static BufferedImage getDirectionImage(Player player) {
@@ -74,7 +90,7 @@ public class GameController implements Runnable {
         return image;
     }
 
-    public static void loadMap(Data data) throws FileNotFoundException {
+    public static int[][] loadMap() throws FileNotFoundException {
         int[][] map = new int[23][26];
         File file = new File("pac-man-map.txt");
         Scanner scanner = new Scanner(file);
@@ -88,6 +104,6 @@ public class GameController implements Runnable {
             }
             j++;
         }
-        data.setMap(map);
+        return map;
     }
 }
