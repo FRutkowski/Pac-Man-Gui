@@ -92,25 +92,21 @@ public class MainMenu extends JPanel {
         settingsButton.setBackground(Color.BLACK);
         settingsButton.setBorderPainted(false);
         settingsButton.setFocusPainted(false);
-        settingsButton.addActionListener(event -> {
-            toggleViewToSettingsMenu();
-        });
+        settingsButton.addActionListener(event -> toggleViewToSettingsMenu());
 
         topPlayersButton = new JButton(buttonTopPlayersImage1);
         topPlayersButton.setBounds(450, 360, 400, 100);
         topPlayersButton.setBackground(Color.BLACK);
         topPlayersButton.setBorderPainted(false);
         topPlayersButton.setFocusPainted(false);
-        topPlayersButton.addActionListener(event -> {
-            toggleViewToTopPlayersMenu();
-        });
+        topPlayersButton.addActionListener(event -> toggleViewToTopPlayersMenu());
 
         exitButton = new JButton(buttonExitImage1);
         exitButton.setBounds(450, 460, 400, 100);
         exitButton.setBackground(Color.BLACK);
         exitButton.setBorderPainted(false);
         exitButton.setFocusPainted(false);
-        exitButton.addActionListener(event -> { System.exit(0); });
+        exitButton.addActionListener(event -> System.exit(0));
     }
 
 
