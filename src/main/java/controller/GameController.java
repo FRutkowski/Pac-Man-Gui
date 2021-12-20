@@ -73,6 +73,7 @@ public class GameController implements Runnable {
                     mapElements[player.getRow()][player.getColumn()] = 9;
                     player.setRow(player.getRow() - 1);
                     data.setMap(map);
+                    game.repaint();
 //                    data.getGame().refreshMap(player.getRow() + 1, player.getColumn(), pacManCurrentPosition.getRow(), pacManCurrentPosition.getColumn(), map);
 //                    Thread.sleep(100);
                 }
