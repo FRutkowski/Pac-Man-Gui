@@ -17,6 +17,7 @@ public class GameController implements Runnable {
     private KeyHandler keyHandler;
     private int[][] mapElements;
     private int[][] map;
+    private boolean isArrowPressed = false;
 
     public GameController(Game game, Data data, Player player) throws FileNotFoundException {
         this.game = game;
@@ -40,6 +41,9 @@ public class GameController implements Runnable {
 
     @Override
     public void run() {
+        map[17][21] = 6;
+//        data.setMap(map);
+
         while (gameThread != null) {
             try {
                 update();
@@ -50,14 +54,30 @@ public class GameController implements Runnable {
     }
 
     public void update() throws InterruptedException {
-            map[17][21] = 5;
 //            f600ff kolor różowy
 //            #ff8d00 kolor pomarańczowy
 //            ff0000 kolor czerwony
 //            #00ffab
-
+            isArrowPressed = false;
             if (keyHandler.isUpPressed()) {
-                player.setDirection(Direction.UP);
+                if (GameMechanicsUtils.canGoTo(player.getRow() - 1, player.getColumn(), mapElements)) {
+                    player.addPoints(GameMechanicsUtils.calculatePoints(player.getRow() - 1, player.getColumn(), map));
+                    if (map[player.getRow()][player.getColumn()] != 4) {
+                        map[player.getRow() - 1][player.getColumn()] = 4;
+                    } else {
+                        map[player.getRow() - 1][player.getColumn()] = 8;
+                    }
+                    System.out.println("coś się zmieniło?");
+
+                    map[player.getRow()][player.getColumn()] = 9;
+                    mapElements[player.getRow()][player.getColumn()] = 9;
+                    player.setRow(player.getRow() - 1);
+                    data.setMap(map);
+//                    data.getGame().refreshMap(player.getRow() + 1, player.getColumn(), pacManCurrentPosition.getRow(), pacManCurrentPosition.getColumn(), map);
+//                    Thread.sleep(100);
+                }
+
+                isArrowPressed = true;
             }
             if (keyHandler.isDownPressed()) {
                 player.setDirection(Direction.DOWN);

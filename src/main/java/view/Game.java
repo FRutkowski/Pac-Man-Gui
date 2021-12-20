@@ -43,7 +43,7 @@ public class Game extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         g2d = (Graphics2D) g;
-        System.out.println("hello there");
+        System.out.println("coś tu się dzieje?");
         if (drawMap) {
             g2d.setBackground(Color.BLACK);
             g2d.setColor(Color.BLACK);

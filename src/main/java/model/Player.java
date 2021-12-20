@@ -9,16 +9,18 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class Player {
-    private int x, y;
+    private int col, row;
     private int speed;
     private String name;
+    private boolean isLeftDirection = false;
+    private int currentPoints = 0;
 
     private BufferedImage up, down, left, right;
     private Direction direction;
 
     public Player() throws IOException {
-        this.x = 20;
-        this.y = 20;
+        this.row = 17;
+        this.col = 21;
         direction = Direction.LEFT;
         up = ImageIO.read(new File("src/main/resources/images/up.png"));
         down = ImageIO.read(new File("src/main/resources/images/down.png"));
@@ -52,20 +54,20 @@ public class Player {
         return right;
     }
 
-    public int getX() {
-        return x;
+    public int getColumn() {
+        return col;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public void setColumn(int x) {
+        this.col = x;
     }
 
-    public int getY() {
-        return y;
+    public int getRow() {
+        return row;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    public void setRow(int y) {
+        this.row = y;
     }
 
     public int getSpeed() {
@@ -75,4 +77,21 @@ public class Player {
     public void setSpeed(int speed) {
         this.speed = speed;
     }
+
+    public boolean isLeftDirection() {
+        return isLeftDirection;
+    }
+
+    public void setLeftDirection(boolean leftDirection) {
+        isLeftDirection = leftDirection;
+    }
+
+    public void addPoints(int points) {
+        currentPoints += points;
+    }
+
+    public int getCurrentPoints() {
+        return currentPoints;
+    }
+
 }
