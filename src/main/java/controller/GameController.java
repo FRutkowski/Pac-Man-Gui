@@ -1,12 +1,15 @@
 package controller;
 
 import model.Data;
+import model.Ghost;
 import model.Player;
 import view.Game;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class GameController implements Runnable {
@@ -18,6 +21,7 @@ public class GameController implements Runnable {
     private int[][] mapElements;
     private int[][] map;
     private boolean isArrowPressed = false;
+    private List<Ghost> ghosts = new ArrayList<>();
 
     public GameController(Game game, Data data, Player player) throws FileNotFoundException {
         this.game = game;
@@ -31,7 +35,6 @@ public class GameController implements Runnable {
         data.setMap(map);
         mapElements = loadMap();
         data.setMapElements(mapElements);
-
     }
 
     public void startGame() {
@@ -42,11 +45,8 @@ public class GameController implements Runnable {
     @Override
     public void run() {
         map[17][21] = 6;
-        map[11][14] = 14;
-        map[11][13] = 20;
-        map[11][11] = 25;
+        initializeGhosts();
 //        data.setMap(map);
-
         while (gameThread != null) {
             try {
                 update();
@@ -61,21 +61,39 @@ public class GameController implements Runnable {
 //            #ff8d00 kolor pomarańczowy
 //            ff0000 kolor czerwony
 //            #00ffab
-            isArrowPressed = false;
-            if (keyHandler.isUpPressed()) {
-                movePacManUp();
+        isArrowPressed = false;
+        if (keyHandler.isUpPressed()) {
+            movePacManUp();
+        }
+        if (keyHandler.isDownPressed()) {
+            movePacManDown();
+        }
+        if (keyHandler.isRightPressed()) {
+            movePacManRight();
+        }
+        if (keyHandler.isLeftPressed()) {
+            movePacManLeft();
+        }
+
+        if (isArrowPressed) {
+            game.repaint();
+            for (Ghost ghost : ghosts) {
+                Direction direction = GameMechanicsUtils.choosePath(data.getMapElements(), ghost.getRow(), ghost.getCol(), ghost.getLatestDirection());
+                switch (direction) {
+                    case UP:
+
+                        break;
+                    case DOWN:
+                        break;
+                    case LEFT:
+                        break;
+                    case RIGHT:
+                        break;
+                }
             }
-            if (keyHandler.isDownPressed()) {
-                movePacManDown();
-            }
-            if (keyHandler.isRightPressed()) {
-                movePacManRight();
-            }
-            if (keyHandler.isLeftPressed()) {
-                movePacManLeft();
-            }
-        Thread.sleep(500);
-        game.repaint();
+        }
+
+        Thread.sleep(50);
     }
 
     public static BufferedImage getDirectionImage(Player player) {
@@ -112,6 +130,15 @@ public class GameController implements Runnable {
             j++;
         }
         return map;
+    }
+
+    public void initializeGhosts() {
+        map[11][14] = 14;
+        map[11][13] = 20;
+        map[11][11] = 25;
+        ghosts.add(new Ghost(11, 14));
+        ghosts.add(new Ghost(11, 13));
+        ghosts.add(new Ghost(11, 11));
     }
 
     public void movePacManUp() {
@@ -209,4 +236,19 @@ public class GameController implements Runnable {
         }
     }
 
+    public void ghostMoveUp() {
+
+    }
+
+    public void ghostMoveDown() {
+
+    }
+
+    public void ghostMoveLeft() {
+
+    }
+
+    public void ghostMoveRight() {
+
+    }
 }
