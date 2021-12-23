@@ -42,10 +42,10 @@ public class GameMechanicsUtils {
         int y = rowPositionGhost;
         Set<Direction> orientantions = new HashSet<>();
 
-        if (x - 2 < 0 && latestPath == Direction.LEFT) return Direction.LEFT;
-        else if (x - 2 < 0 && latestPath == Direction.RIGHT) return Direction.RIGHT;
-        if (x + 2 > 50 && latestPath == Direction.RIGHT) return Direction.RIGHT;
-        else if (x + 2 > 50 && latestPath == Direction.LEFT) return Direction.LEFT;
+        if (x - 1 < 0 && latestPath == Direction.LEFT) return Direction.LEFT;
+        else if (x - 1 < 0 && latestPath == Direction.RIGHT) return Direction.RIGHT;
+        if (x + 1 > 25 && latestPath == Direction.RIGHT) return Direction.RIGHT;
+        else if (x + 1 > 25 && latestPath == Direction.LEFT) return Direction.LEFT;
         List<Direction> availablePaths = new ArrayList<>();
         if (map[y - 1][x] == 1 || map[y - 1][x] == 2 || map[y - 1][x] == 9 || map[y - 1][x] == 3) {
             availablePaths.add(Direction.UP);
@@ -57,12 +57,12 @@ public class GameMechanicsUtils {
             orientantions.add(Direction.VERTICAL);
         }
 
-        if (map[y][x - 2] == 1 || map[y][x - 2] == 2 || map[y][x - 2] == 9) {
+        if (map[y][x - 1] == 1 || map[y][x - 1] == 2 || map[y][x - 1] == 9) {
             availablePaths.add(Direction.LEFT);
             orientantions.add(Direction.HORIZONTAL);
         }
 
-        if (map[y][x + 2] == 1 || map[y][x + 2] == 2 || map[y][x + 2] == 9) {
+        if (map[y][x + 1] == 1 || map[y][x + 1] == 2 || map[y][x + 1] == 9) {
             availablePaths.add(Direction.RIGHT);
             orientantions.add(Direction.HORIZONTAL);
         }
@@ -86,9 +86,9 @@ public class GameMechanicsUtils {
             case DOWN:
                 return canGoTo(row + 1, col, map);
             case LEFT:
-                return canGoTo(row, col - 2, map);
+                return canGoTo(row, col - 1, map);
             case RIGHT:
-                return canGoTo(row, col + 2, map);
+                return canGoTo(row, col + 1, map);
         }
 
         return false;

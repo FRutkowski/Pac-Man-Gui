@@ -3,30 +3,32 @@ package model;
 import controller.Direction;
 
 public class Ghost {
-    private int row, col;
+    private int rowPosition, colPosition;
     private Direction latestDirection;
     private int tileIndexColor;
+    private boolean nextImage = true;
 
-    public Ghost(int row, int col) {
-        this.row = row;
-        this.col = col;
+    public Ghost(int row, int col, int tileIndexColor) {
+        this.rowPosition = row;
+        this.colPosition = col;
+        this.tileIndexColor = tileIndexColor;
         this.latestDirection = Direction.NOWHERE;
     }
 
-    public int getRow() {
-        return row;
+    public int getRowPosition() {
+        return rowPosition;
     }
 
-    public void setRow(int row) {
-        this.row = row;
+    public void setRowPosition(int row) {
+        this.rowPosition = row;
     }
 
-    public int getCol() {
-        return col;
+    public int getColPosition() {
+        return colPosition;
     }
 
-    public void setCol(int col) {
-        this.col = col;
+    public void setColPosition(int col) {
+        this.colPosition = col;
     }
 
     public Direction getLatestDirection() {
@@ -37,4 +39,19 @@ public class Ghost {
         this.latestDirection = latestDirection;
     }
 
+    public int getTileIndexColor() {
+        return tileIndexColor;
+    }
+
+    public void setTileIndexColor(int tileIndexColor) {
+        this.tileIndexColor = tileIndexColor;
+    }
+
+    public boolean isNextImage() {
+        return nextImage;
+    }
+
+    public void setNextImage(boolean nextImage) {
+        this.nextImage = nextImage;
+    }
 }
