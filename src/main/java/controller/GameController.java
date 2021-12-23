@@ -285,7 +285,7 @@ public class GameController implements Runnable {
             ghost.setNextImage(true);
         }
 
-        if (ghost.getColPosition() >= 2) {
+        if (ghost.getColPosition() >= 1) {
             map[ghost.getRowPosition()][ghost.getColPosition() - 1] = imageIndex;
             map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
             ghost.setColPosition(ghost.getColPosition() - 1);
