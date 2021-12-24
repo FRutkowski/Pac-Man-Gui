@@ -8,6 +8,7 @@ public class Data {
     private int tileSize = 25;
     private int[][] map;
     private int[][] mapElements;
+    private String name = "Player";
     public KeyHandler getKeyHandler() {
         return keyHandler;
     }
@@ -34,5 +35,13 @@ public class Data {
 
     public void setMapElements(int[][] mapElements) {
         this.mapElements = mapElements;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

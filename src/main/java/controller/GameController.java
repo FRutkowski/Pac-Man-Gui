@@ -35,11 +35,23 @@ public class GameController implements Runnable {
         data.setMap(map);
         mapElements = loadMap();
         data.setMapElements(mapElements);
+        game.playButton.addActionListener(event -> startGame());
     }
 
     public void startGame() {
+        if (game.name.getText().length() < 2 || game.name.getText() == null) return;
+        prepareGame();
         gameThread = new Thread(this);
         gameThread.start();
+    }
+
+    public void prepareGame() {
+        data.setName(game.name.getText());
+        game.playButton.setVisible(false);
+        game.title.setVisible(false);
+        game.name.setVisible(false);
+        game.drawMap = true;
+        game.repaint();
     }
 
     @Override

@@ -15,7 +15,6 @@ public class Game extends JPanel {
     private final JFrame mainFrame;
     private Graphics2D g2d;
     private final Data data;
-    private JLabel title;
 
     private MainMenu mainMenu;
     private Image backGroundImage;
@@ -23,11 +22,13 @@ public class Game extends JPanel {
     private ImageIcon textPlace;
     private final Player player = new Player();
     private BufferedImage block;
-    private JTextField name;
-    private JButton playButton;
+
+    public JLabel title;
+    public JTextField name;
+    public JButton playButton;
+    public boolean drawMap = false;
 
     private final TileManager tileManager;
-    private final boolean drawMap = false;
     private final Map<Position, Position> positionForEachIndex = new HashMap<>();
     private final Position[][] positionArray = new Position[23][26];
 
@@ -68,12 +69,10 @@ public class Game extends JPanel {
         playButton.setBackground(Color.BLACK);
         playButton.setBorderPainted(false);
         playButton.setFocusPainted(false);
-        playButton.addActionListener(event -> startGame());
         this.add(playButton);
     }
 
     public void startGame() {
-
     }
 
     public void initializeTextFields() {
