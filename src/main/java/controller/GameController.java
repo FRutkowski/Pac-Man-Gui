@@ -4,6 +4,7 @@ import model.Data;
 import model.Ghost;
 import model.Player;
 import view.Game;
+import view.MainMenu;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -21,12 +22,15 @@ public class GameController implements Runnable {
     private int[][] mapElements;
     private int[][] map;
     private boolean isArrowPressed = false;
+    private MainMenu mainMenu;
     private List<Ghost> ghosts = new ArrayList<>();
+    public static boolean gameOver = false;
 
-    public GameController(Game game, Data data, Player player) throws FileNotFoundException {
+    public GameController(MainMenu mainMenu, Game game, Data data, Player player) throws FileNotFoundException {
         this.game = game;
         this.data = data;
         this.player = player;
+        this.mainMenu = mainMenu;
         this.keyHandler = new KeyHandler();
         game.addKeyListener(keyHandler);
         game.setFocusable(true);
@@ -47,6 +51,7 @@ public class GameController implements Runnable {
 
     public void prepareGame() {
         data.setName(game.name.getText());
+        data.setAmountOfGhosts(new int [23][26]);
         game.playButton.setVisible(false);
         game.title.setVisible(false);
         game.name.setVisible(false);
@@ -68,26 +73,43 @@ public class GameController implements Runnable {
         }
     }
 
-    public void update() throws InterruptedException {
-//            f600ff kolor różowy
-//            #ff8d00 kolor pomarańczowy
-//            ff0000 kolor czerwony
-//            #00ffab
-        isArrowPressed = false;
-        if (keyHandler.isUpPressed()) {
-            movePacManUp();
-        }
-        if (keyHandler.isDownPressed()) {
-            movePacManDown();
-        }
-        if (keyHandler.isRightPressed()) {
-            movePacManRight();
-        }
-        if (keyHandler.isLeftPressed()) {
-            movePacManLeft();
+    public static int[][] loadMap() throws FileNotFoundException {
+        int[][] map = new int[23][26];
+        File file = new File("pac-man-map.txt");
+        Scanner scanner = new Scanner(file);
+        int j = 0;
+        String currentLine;
+
+        while (scanner.hasNextLine()) {
+            currentLine = scanner.nextLine();
+            for (int i = 0; i < 26; i++) {
+                String[] numbers = currentLine.split(" ");
+                map[j][i] = Integer.parseInt(numbers[i]);
+            }
+            j++;
         }
 
-        if (isArrowPressed) {
+        return map;
+    }
+
+    public void initializeGhosts() {
+        map[11][14] = 14;
+        map[11][13] = 20;
+        map[11][11] = 25;
+        ghosts.add(new Ghost(11, 14, 10));
+        ghosts.add(new Ghost(11, 13, 14));
+        ghosts.add(new Ghost(11, 11, 18));
+    }
+
+    public void update() throws InterruptedException {
+        isArrowPressed = false;
+        if (keyHandler.isUpPressed()) movePacManUp();
+        if (keyHandler.isDownPressed()) movePacManDown();
+        if (keyHandler.isRightPressed()) movePacManRight();
+        if (keyHandler.isLeftPressed()) movePacManLeft();
+        if (data.getAmountOfGhosts()[player.getRow()][player.getColumn()] > 0) gameOver();
+
+        if (isArrowPressed && gameThread != null) {
             for (Ghost ghost : ghosts) {
                 Direction direction = GameMechanicsUtils.choosePath(data.getMapElements(), ghost.getRowPosition(), ghost.getColPosition(), ghost.getLatestDirection());
                 int imageIndex = (int) (Math.random() * ((ghost.getTileIndexColor() + 3) - ghost.getTileIndexColor() + 1) + ghost.getTileIndexColor());
@@ -105,39 +127,11 @@ public class GameController implements Runnable {
                         ghostMoveRight(ghost);
                         break;
                 }
+                if (ghosts.isEmpty()) return;
             }
             game.repaint();
         }
-        Thread.sleep(150);
-    }
-
-
-    public static int[][] loadMap() throws FileNotFoundException {
-        int[][] map = new int[23][26];
-        File file = new File("pac-man-map.txt");
-        Scanner scanner = new Scanner(file);
-        int j = 0;
-        String currentLine;
-
-        while (scanner.hasNextLine()) {
-            currentLine = scanner.nextLine();
-            for (int i = 0; i < 26; i++) {
-                String numbers[] = currentLine.split(" ");
-                map[j][i] = Integer.parseInt(numbers[i]);
-            }
-            j++;
-        }
-
-        return map;
-    }
-
-    public void initializeGhosts() {
-        map[11][14] = 14;
-        map[11][13] = 20;
-        map[11][11] = 25;
-        ghosts.add(new Ghost(11, 14, 10));
-        ghosts.add(new Ghost(11, 13, 14));
-        ghosts.add(new Ghost(11, 11, 18));
+        Thread.sleep(50);
     }
 
     public void movePacManUp() {
@@ -333,8 +327,23 @@ public class GameController implements Runnable {
     public void gameOver() {
         game.drawMap = false;
         game.repaint();
+        gameOver = true;
         game.gameOver.setVisible(true);
         game.gameOver2.setVisible(true);
+        while (gameOver) {
+            System.out.println("czekam na enter");
+            if (keyHandler.isEnterPressed()) {
+                game.setVisible(false);
+//                game.gameOver.setVisible(false);
+//                game.gameOver2.setVisible(false);
+                mainMenu.setVisible(true);
+                gameOver = false;
+                ghosts.clear();
+                gameThread = null;
+                data.setAmountOfGhosts(null);
+                data.setMap(null);
+            }
+        }
     }
 }
 

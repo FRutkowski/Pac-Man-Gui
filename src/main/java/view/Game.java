@@ -16,7 +16,6 @@ public class Game extends JPanel {
     private Graphics2D g2d;
     private final Data data;
 
-    private MainMenu mainMenu;
     private Image backGroundImage;
     private ImageIcon buttonPlay;
     private ImageIcon textPlace;
@@ -34,7 +33,7 @@ public class Game extends JPanel {
     private final Map<Position, Position> positionForEachIndex = new HashMap<>();
     private final Position[][] positionArray = new Position[23][26];
 
-    public Game(MainMenu mainMenu, JFrame mainFrame, Data data) throws IOException {
+    public Game(JFrame mainFrame, Data data) throws IOException {
         super();
         this.mainFrame = mainFrame;
         this.data = data;

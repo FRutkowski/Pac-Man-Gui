@@ -54,4 +54,8 @@ public class Data {
     public void addAmountOfGhosts(int y, int x, int i) {
         this.amountOfGhosts[y][x] += i;
     }
+
+    public void setAmountOfGhosts(int [][] amountOfGhosts) {
+        this.amountOfGhosts = amountOfGhosts;
+    }
 }

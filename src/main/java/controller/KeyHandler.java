@@ -8,6 +8,7 @@ public class KeyHandler implements KeyListener {
     private boolean downPressed;
     private boolean rightPressed;
     private boolean leftPressed;
+    private boolean enterPressed;
 
     @Override
     public void keyTyped(KeyEvent event) {
@@ -35,6 +36,9 @@ public class KeyHandler implements KeyListener {
                 System.out.println("is that work");
                 leftPressed = true;
                 break;
+            case KeyEvent.VK_ENTER:
+                enterPressed = true;
+                break;
         }
     }
 
@@ -54,6 +58,9 @@ public class KeyHandler implements KeyListener {
             case KeyEvent.VK_LEFT:
                 leftPressed = false;
                 break;
+            case KeyEvent.VK_ENTER:
+                enterPressed = false;
+                break;
         }
     }
 
@@ -71,5 +78,13 @@ public class KeyHandler implements KeyListener {
 
     public boolean isLeftPressed() {
         return leftPressed;
+    }
+
+    public boolean isEnterPressed() {
+        return enterPressed;
+    }
+
+    public void setEnterPressed(boolean enterPressed) {
+        this.enterPressed = enterPressed;
     }
 }
