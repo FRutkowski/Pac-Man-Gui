@@ -15,14 +15,19 @@ public class Game extends JPanel {
     private final JFrame mainFrame;
     private Graphics2D g2d;
     private final Data data;
+    private JLabel title;
 
     private MainMenu mainMenu;
     private Image backGroundImage;
+    private ImageIcon buttonPlay;
+    private ImageIcon textPlace;
     private final Player player = new Player();
     private BufferedImage block;
+    private JTextField name;
+    private JButton playButton;
 
     private final TileManager tileManager;
-    private final boolean drawMap = true;
+    private final boolean drawMap = false;
     private final Map<Position, Position> positionForEachIndex = new HashMap<>();
     private final Position[][] positionArray = new Position[23][26];
 
@@ -32,22 +37,65 @@ public class Game extends JPanel {
         this.data = data;
 //        setBackground(Color.BLACK);
         setVisible(true);
+        setLayout(null);
         tileManager = new TileManager(this);
+
         initializeImages();
+        initializeButtons();
+        initializeLabels();
+        initializeTextFields();
     }
 
     public void initializeImages() {
         backGroundImage = new ImageIcon("src/main/resources/images/background-black.png").getImage();
+        buttonPlay = new ImageIcon("src/main/resources/images/button_play.png");
+        textPlace = new ImageIcon("src/main/resources/images/enter_text.png");
+    }
+
+    public void initializeLabels() {
+         title = new JLabel("Enter your name");
+         title.setFont(new Font("Arial", Font.BOLD, 27));
+         title.setBounds(350, 20, 400, 40);
+         title.setOpaque(true);
+         title.setBackground(Color.BLACK);
+         title.setForeground(Color.BLUE);
+         this.add(title);
+    }
+
+    public void initializeButtons() {
+        playButton = new JButton(buttonPlay);
+        playButton.setBounds(390, 160, 175, 60);
+        playButton.setBackground(Color.BLACK);
+        playButton.setBorderPainted(false);
+        playButton.setFocusPainted(false);
+        playButton.addActionListener(event -> startGame());
+        this.add(playButton);
+    }
+
+    public void startGame() {
+
+    }
+
+    public void initializeTextFields() {
+        name = new JTextField(16);
+        name.setFont(new Font("Arial", Font.BOLD, 27));
+        name.setOpaque(true);
+        name.setBackground(Color.RED);
+        name.setForeground(Color.YELLOW);
+        name.setBounds(295, 70, 360, 40);
+        name.setHorizontalAlignment(JTextField.CENTER);
+        this.add(name);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         g2d = (Graphics2D) g;
-        System.out.println("coś tu się dzieje?");
+
+        g2d.setBackground(Color.BLACK);
+        g2d.setColor(Color.BLACK);
+        g2d.drawImage(backGroundImage, 0, 0, null);
+
         if (drawMap) {
-            g2d.setBackground(Color.BLACK);
-            g2d.setColor(Color.BLACK);
-            g2d.drawImage(backGroundImage, 0, 0, null);
             int col = 0;
             int row = 0;
             int x = 200;
@@ -68,6 +116,8 @@ public class Game extends JPanel {
                     y += tileManager.getTileSize();
                 }
             }
+        } else {
+
         }
 
 //        BufferedImage image = GameController.getDirectionImage(player);

@@ -96,28 +96,9 @@ public class GameController implements Runnable {
             }
             game.repaint();
         }
-
         Thread.sleep(150);
     }
 
-    public static BufferedImage getDirectionImage(Player player) {
-        BufferedImage image = null;
-        switch (player.getDirection()) {
-            case UP:
-                image = player.getUp();
-                break;
-            case DOWN:
-                image = player.getDown();
-                break;
-            case LEFT:
-                image = player.getLeft();
-                break;
-            case RIGHT:
-                image = player.getRight();
-                break;
-        }
-        return image;
-    }
 
     public static int[][] loadMap() throws FileNotFoundException {
         int[][] map = new int[23][26];
@@ -125,6 +106,7 @@ public class GameController implements Runnable {
         Scanner scanner = new Scanner(file);
         int j = 0;
         String currentLine;
+
         while (scanner.hasNextLine()) {
             currentLine = scanner.nextLine();
             for (int i = 0; i < 26; i++) {
@@ -133,6 +115,7 @@ public class GameController implements Runnable {
             }
             j++;
         }
+
         return map;
     }
 
@@ -295,6 +278,7 @@ public class GameController implements Runnable {
             map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
             ghost.setColPosition(25);
         }
+
         ghost.setLatestDirection(Direction.LEFT);
     }
 

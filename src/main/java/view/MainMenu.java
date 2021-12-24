@@ -6,8 +6,6 @@ import model.Player;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 
 public class MainMenu extends JPanel {
@@ -52,7 +50,7 @@ public class MainMenu extends JPanel {
         initializeImages();
         initializeButtons();
         initializeLabels();
-        paintComponents();
+        addComponents();
     }
 
     public void initializeImages() {
@@ -116,7 +114,7 @@ public class MainMenu extends JPanel {
         g2d.drawImage(backGroundImage, 0, 0, null);
     }
 
-    public void paintComponents() {
+    public void addComponents() {
         this.add(title);
         this.add(startButton);
         this.add(settingsButton);
