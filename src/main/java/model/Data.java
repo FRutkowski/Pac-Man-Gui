@@ -8,6 +8,7 @@ public class Data {
     private int tileSize = 25;
     private int[][] map;
     private int[][] mapElements;
+    private int[][] amountOfGhosts = new int[23][26];
     private String name = "Player";
     public KeyHandler getKeyHandler() {
         return keyHandler;
@@ -43,5 +44,14 @@ public class Data {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+
+    public int[][] getAmountOfGhosts() {
+        return amountOfGhosts;
+    }
+
+    public void addAmountOfGhosts(int y, int x, int i) {
+        this.amountOfGhosts[y][x] += i;
     }
 }

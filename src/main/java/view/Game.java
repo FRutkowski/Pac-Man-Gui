@@ -24,6 +24,8 @@ public class Game extends JPanel {
     private BufferedImage block;
 
     public JLabel title;
+    public JLabel gameOver;
+    public JLabel gameOver2;
     public JTextField name;
     public JButton playButton;
     public boolean drawMap = false;
@@ -61,6 +63,26 @@ public class Game extends JPanel {
          title.setBackground(Color.BLACK);
          title.setForeground(Color.BLUE);
          this.add(title);
+
+        gameOver = new JLabel("Game Over");
+        gameOver.setFont(new Font("Arial", Font.BOLD, 27));
+        gameOver.setBounds(390, 20, 400, 40);
+        gameOver.setOpaque(true);
+
+        gameOver.setBackground(Color.BLACK);
+        gameOver.setForeground(Color.RED);
+        gameOver.setVisible(false);
+        this.add(gameOver);
+
+        gameOver2 = new JLabel("Press enter to back to the menu");
+        gameOver2.setFont(new Font("Arial", Font.PLAIN, 20));
+        gameOver2.setBounds(310, 60, 400, 40);
+        gameOver2.setOpaque(true);
+
+        gameOver2.setBackground(Color.BLACK);
+        gameOver2.setForeground(Color.RED);
+        gameOver2.setVisible(false);
+        this.add(gameOver2);
     }
 
     public void initializeButtons() {
@@ -70,9 +92,6 @@ public class Game extends JPanel {
         playButton.setBorderPainted(false);
         playButton.setFocusPainted(false);
         this.add(playButton);
-    }
-
-    public void startGame() {
     }
 
     public void initializeTextFields() {
@@ -89,7 +108,6 @@ public class Game extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         g2d = (Graphics2D) g;
-
         g2d.setBackground(Color.BLACK);
         g2d.setColor(Color.BLACK);
         g2d.drawImage(backGroundImage, 0, 0, null);

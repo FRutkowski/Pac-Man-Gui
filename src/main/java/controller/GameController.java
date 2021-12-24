@@ -237,30 +237,28 @@ public class GameController implements Runnable {
 
     public void ghostMoveUp(Ghost ghost, int imageIndex) {
         if (ghost.getColPosition() == player.getColumn() && (ghost.getRowPosition() == player.getRow() || ghost.getRowPosition() - 1 == player.getRow())) {
-//                            PlayerInteractListener.gameOver(data);
-            //TODO add game over
+            gameOver();
             return;
         }
 
         map[ghost.getRowPosition() - 1][ghost.getColPosition()] = imageIndex;
         map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
-//                        data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition(), -1);
-//                        data.addAmountOfGhosts(ghost.getRowPosition() - 1, ghost.getColPosition(), 1);
+        data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition(), -1);
+        data.addAmountOfGhosts(ghost.getRowPosition() - 1, ghost.getColPosition(), 1);
         ghost.setRowPosition(ghost.getRowPosition() - 1);
         ghost.setLatestDirection(Direction.UP);
     }
 
     public void ghostMoveDown(Ghost ghost, int imageIndex) {
         if (ghost.getColPosition() == player.getColumn() && (ghost.getRowPosition() == player.getRow() || ghost.getRowPosition() + 1 == player.getRow())) {
-//                            PlayerInteractListener.gameOver(data);
-            //TODO add game over
+            gameOver();
             return;
         }
 
         map[ghost.getRowPosition() + 1][ghost.getColPosition()] = imageIndex;
         map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
-//                        data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition(), -1);
-//                        data.addAmountOfGhosts(ghost.getRowPosition() + 1, ghost.getColPosition(), 1);
+        data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition(), -1);
+        data.addAmountOfGhosts(ghost.getRowPosition() + 1, ghost.getColPosition(), 1);
 
         ghost.setRowPosition(ghost.getRowPosition() + 1);
         ghost.setLatestDirection(Direction.DOWN);
@@ -268,6 +266,7 @@ public class GameController implements Runnable {
 
     public void ghostMoveLeft(Ghost ghost) {
         if ((ghost.getColPosition() == player.getColumn() || ghost.getColPosition() - 1 == player.getColumn()) && ghost.getRowPosition() == player.getRow()) {
+            gameOver();
             return;
         }
 
@@ -283,11 +282,15 @@ public class GameController implements Runnable {
         if (ghost.getColPosition() >= 1) {
             map[ghost.getRowPosition()][ghost.getColPosition() - 1] = imageIndex;
             map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
+            data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition(), -1);
+            data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition() - 1, 1);
             ghost.setColPosition(ghost.getColPosition() - 1);
 
         } else if (ghost.getColPosition() == 0) {
             map[ghost.getRowPosition()][25] = imageIndex;
             map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
+            data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition(), -1);
+            data.addAmountOfGhosts(ghost.getRowPosition(), 25, 1);
             ghost.setColPosition(25);
         }
 
@@ -296,7 +299,7 @@ public class GameController implements Runnable {
 
     public void ghostMoveRight(Ghost ghost) {
         if ((ghost.getColPosition() == player.getColumn() || ghost.getColPosition() + 1 == player.getColumn()) && ghost.getRowPosition() == player.getRow()) {
-//            PlayerInteractListener.gameOver(data);
+            gameOver();
             return;
         }
 
@@ -312,14 +315,26 @@ public class GameController implements Runnable {
         if (ghost.getColPosition() <= 24) {
             map[ghost.getRowPosition()][ghost.getColPosition() + 1] = imageIndex;
             map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
+            data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition(), -1);
+            data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition() + 1, 1);
             ghost.setColPosition(ghost.getColPosition() + 1);
 
         } else if (ghost.getColPosition() == 25) {
             map[ghost.getRowPosition()][0] = imageIndex;
             map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
+            data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition(), -1);
+            data.addAmountOfGhosts(ghost.getRowPosition(), 0, 1);
             ghost.setColPosition(0);
         }
 
         ghost.setLatestDirection(Direction.RIGHT);
     }
+
+    public void gameOver() {
+        game.drawMap = false;
+        game.repaint();
+        game.gameOver.setVisible(true);
+        game.gameOver2.setVisible(true);
+    }
 }
+
