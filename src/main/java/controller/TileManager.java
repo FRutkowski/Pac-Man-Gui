@@ -15,7 +15,7 @@ public class TileManager {
 
     public TileManager(Game game) throws IOException {
         this.game = game;
-        tile = new Tile[28];
+        tile = new Tile[30];
         getTileImage();
     }
 
@@ -124,6 +124,12 @@ public class TileManager {
 
         tile[27] = new Tile();
         tile[27].setImage(ImageIO.read(new File("src/main/resources/images/green-right-ghost.png")));
+
+        tile[28] = new Tile();
+        tile[28].setImage(ImageIO.read(new File("src/main/resources/images/green-left-ghost.png")));
+
+        tile[29] = new Tile();
+        tile[29].setImage(ImageIO.read(new File("src/main/resources/images/green-right-ghost.png")));
     }
 
     public Tile[] getTile() {

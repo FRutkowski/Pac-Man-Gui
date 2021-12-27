@@ -108,9 +108,13 @@ public class GameController implements Runnable {
         map[11][14] = 14;
         map[11][13] = 20;
         map[11][11] = 25;
-//        ghosts.add(new Ghost(11, 14, 10));
-//        ghosts.add(new Ghost(11, 13, 14));
-//        ghosts.add(new Ghost(11, 11, 18));
+        map[11][12] = 23;
+        map[9][13] = 26;
+        ghosts.add(new Ghost(11, 14, 10));
+        ghosts.add(new Ghost(11, 13, 14));
+        ghosts.add(new Ghost(11, 11, 18));
+        ghosts.add(new Ghost(11, 12, 22));
+        ghosts.add(new Ghost(9, 13, 26));
     }
 
     public void update() throws InterruptedException, IOException {
