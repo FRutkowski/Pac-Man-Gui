@@ -6,7 +6,6 @@ import model.Player;
 import view.Game;
 import view.MainMenu;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -15,28 +14,33 @@ import java.util.List;
 import java.util.Scanner;
 
 public class GameController implements Runnable {
-    private Game game;
-    private Data data;
-    private Player player;
-    private Thread gameThread;
-    private KeyHandler keyHandler;
+    private final Game game;
+    private final Data data;
+    private final MainMenu mainMenu;
+
     private int[][] mapElements;
     private int[][] map;
+
+    private Thread gameThread;
+    private final KeyHandler keyHandler;
     private boolean isArrowPressed = false;
-    private MainMenu mainMenu;
-    private final JFrame mainFrame;
-    private List<Ghost> ghosts = new ArrayList<>();
-    private int requiredPoints = 0;
+
+    private final Player player;
+    private final List<Ghost> ghosts = new ArrayList<>();
+    private int requiredPoints = 2850;
+    private int remainingNumberOfMoves;
     private boolean gameOver = false;
 
-    public GameController(MainMenu mainMenu, Game game, Data data, Player player, JFrame mainFrame, boolean nextRound, int requiredPoints) throws FileNotFoundException {
+    public GameController(MainMenu mainMenu, Game game, Data data, Player player) {
         this.game = game;
         this.data = data;
-        this.player = player;
         this.mainMenu = mainMenu;
-        this.mainFrame = mainFrame;
+
         this.keyHandler = new KeyHandler();
-        this.requiredPoints = requiredPoints;
+        this.player = player;
+        this.remainingNumberOfMoves = (int) (350 * data.getHardLevel());
+
+        data.setRemainingMoves(remainingNumberOfMoves);
         game.addKeyListener(keyHandler);
         game.setFocusable(true);
         game.requestFocus();
@@ -55,34 +59,11 @@ public class GameController implements Runnable {
         data.setMap(map);
         mapElements = loadMap();
         data.setMapElements(mapElements);
+
         if (game.name.getText().length() < 2 || game.name.getText() == null) return;
         prepareGame();
         gameThread = new Thread(this);
         gameThread.start();
-    }
-
-    public void prepareGame() {
-        data.setName(game.name.getText());
-        data.setAmountOfGhosts(new int [23][26]);
-        game.playButton.setVisible(false);
-        game.title.setVisible(false);
-        game.name.setVisible(false);
-        game.drawMap = true;
-        game.repaint();
-    }
-
-    @Override
-    public void run() {
-        map[17][21] = 6;
-        initializeGhosts();
-//        data.setMap(map);
-        while (gameThread != null) {
-            try {
-                update();
-            } catch (InterruptedException | IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     public static int[][] loadMap() throws FileNotFoundException {
@@ -104,12 +85,42 @@ public class GameController implements Runnable {
         return map;
     }
 
+    public void prepareGame() {
+        data.setName(game.name.getText());
+        data.setAmountOfGhosts(new int [23][26]);
+
+        game.playButton.setVisible(false);
+        game.title.setVisible(false);
+        game.name.setVisible(false);
+
+        game.scoreBoard.setVisible(true);
+        game.remainingMoves.setVisible(true);
+        game.drawMap = true;
+        game.repaint();
+    }
+
+    @Override
+    public void run() {
+        map[17][21] = 6;
+        initializeGhosts();
+        while (gameThread != null) {
+            try {
+                update();
+            } catch (InterruptedException | IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
     public void initializeGhosts() {
         map[11][14] = 14;
         map[11][13] = 20;
         map[11][11] = 25;
         map[11][12] = 23;
         map[9][13] = 26;
+
         ghosts.add(new Ghost(11, 14, 10));
         ghosts.add(new Ghost(11, 13, 14));
         ghosts.add(new Ghost(11, 11, 18));
@@ -126,6 +137,9 @@ public class GameController implements Runnable {
         if (data.getAmountOfGhosts()[player.getRow()][player.getColumn()] > 0) gameOver();
 
         if (isArrowPressed && gameThread != null) {
+            if (--remainingNumberOfMoves == -1) gameOver();
+            game.remainingMoves.setText(String.valueOf(remainingNumberOfMoves));
+
             for (Ghost ghost : ghosts) {
                 Direction direction = GameMechanicsUtils.choosePath(data.getMapElements(), ghost.getRowPosition(), ghost.getColPosition(), ghost.getLatestDirection());
                 int imageIndex = (int) (Math.random() * ((ghost.getTileIndexColor() + 3) - ghost.getTileIndexColor() + 1) + ghost.getTileIndexColor());
@@ -148,6 +162,7 @@ public class GameController implements Runnable {
             game.repaint();
         }
 
+        game.scoreBoard.setText(String.valueOf(player.getCurrentPoints()));
         if (player.getCurrentPoints() == requiredPoints) {
             roundWon();
             return;
@@ -251,7 +266,7 @@ public class GameController implements Runnable {
         }
     }
 
-    public void ghostMoveUp(Ghost ghost, int imageIndex) {
+    public void ghostMoveUp(Ghost ghost, int imageIndex) throws IOException, InterruptedException {
         if (ghost.getColPosition() == player.getColumn() && (ghost.getRowPosition() == player.getRow() || ghost.getRowPosition() - 1 == player.getRow())) {
             gameOver();
             return;
@@ -261,11 +276,12 @@ public class GameController implements Runnable {
         map[ghost.getRowPosition()][ghost.getColPosition()] = mapElements[ghost.getRowPosition()][ghost.getColPosition()];
         data.addAmountOfGhosts(ghost.getRowPosition(), ghost.getColPosition(), -1);
         data.addAmountOfGhosts(ghost.getRowPosition() - 1, ghost.getColPosition(), 1);
+
         ghost.setRowPosition(ghost.getRowPosition() - 1);
         ghost.setLatestDirection(Direction.UP);
     }
 
-    public void ghostMoveDown(Ghost ghost, int imageIndex) {
+    public void ghostMoveDown(Ghost ghost, int imageIndex) throws IOException, InterruptedException {
         if (ghost.getColPosition() == player.getColumn() && (ghost.getRowPosition() == player.getRow() || ghost.getRowPosition() + 1 == player.getRow())) {
             gameOver();
             return;
@@ -280,7 +296,7 @@ public class GameController implements Runnable {
         ghost.setLatestDirection(Direction.DOWN);
     }
 
-    public void ghostMoveLeft(Ghost ghost) {
+    public void ghostMoveLeft(Ghost ghost) throws IOException, InterruptedException {
         if ((ghost.getColPosition() == player.getColumn() || ghost.getColPosition() - 1 == player.getColumn()) && ghost.getRowPosition() == player.getRow()) {
             gameOver();
             return;
@@ -313,7 +329,7 @@ public class GameController implements Runnable {
         ghost.setLatestDirection(Direction.LEFT);
     }
 
-    public void ghostMoveRight(Ghost ghost) {
+    public void ghostMoveRight(Ghost ghost) throws IOException, InterruptedException {
         if ((ghost.getColPosition() == player.getColumn() || ghost.getColPosition() + 1 == player.getColumn()) && ghost.getRowPosition() == player.getRow()) {
             gameOver();
             return;
@@ -346,26 +362,49 @@ public class GameController implements Runnable {
         ghost.setLatestDirection(Direction.RIGHT);
     }
 
-    public void finishGame() {
-        game.setVisible(false);
-//                game.gameOver.setVisible(false);
-//                game.gameOver2.setVisible(false);
-        mainMenu.setVisible(true);
+    public void startNextRound() throws FileNotFoundException {
+        game.roundWon.setVisible(false);
+        game.roundWon2.setVisible(false);
+        game.drawMap = true;
         gameOver = false;
+
+        remainingNumberOfMoves = (int) (350 * data.getHardLevel());
+        game.remainingMoves.setText(String.valueOf(remainingNumberOfMoves));
+
+        map = loadMap();
+        data.setMap(map);
+        mapElements = loadMap();
+        data.setMapElements(mapElements);
+
+        data.setAmountOfGhosts(new int[23][26]);
         ghosts.clear();
-        gameThread = null;
-        data.setAmountOfGhosts(null);
-        data.setMap(null);
+        initializeGhosts();
+
+        map[17][21] = 6;
+        player.setRow(17);
+        player.setColumn(21);
+
+        game.repaint();
+        requiredPoints = requiredPoints + 2850;
     }
 
-    public void gameOver() {
+    public void finishGame() throws IOException {
+        GameMechanicsUtils.writeScoreToFile(data);
+        game.setVisible(false);
+        mainMenu.setVisible(true);
+        gameOver = false;
+        gameThread = null;
+    }
+
+    public void gameOver() throws InterruptedException, IOException {
         game.drawMap = false;
         game.repaint();
         gameOver = true;
         game.gameOver.setVisible(true);
         game.gameOver2.setVisible(true);
+
         while (gameOver) {
-            System.out.println("czekam na enter");
+            Thread.sleep(1);
             if (keyHandler.isEnterPressed()) {
                 finishGame();
             }
@@ -378,42 +417,13 @@ public class GameController implements Runnable {
         gameOver = true;
         game.roundWon.setVisible(true);
         game.roundWon2.setVisible(true);
-        Thread.sleep(5000);
+
+        Thread.sleep(2000);
         while (gameOver) {
-            System.out.println("coś tu się wgl dzieje?");
-            System.out.println(gameOver);
+            Thread.sleep(1);
             if (keyHandler.isEnterPressed()) {
-                System.out.println("czy w ogole nastepna runda ma prawo bytu?");
-//                game.setVisible(false);
-                game.roundWon.setVisible(false);
-                game.roundWon2.setVisible(false);
-                game.drawMap = true;
-                gameOver = false;
-//                data.setMap(null);
-                data.setAmountOfGhosts(null);
-                data.setAmountOfGhosts(new int[23][26]);
-
-                System.out.println(player.getCurrentPoints());
-                ghosts.clear();
-                map = loadMap();
-                data.setMap(map);
-                mapElements = loadMap();
-                data.setMapElements(mapElements);
-                map[17][21] = 6;
-                initializeGhosts();
-                game.repaint();
-                requiredPoints = requiredPoints + 2850;
-                player.setRow(17);
-                player.setColumn(21);
-//                update();
-//                gameThread = null;
-//                startGame();
-//                Game game2 = new Game(mainFrame, data);
-//                mainFrame.add(game2);
-//                new GameController(mainMenu, game, data, player, mainFrame, true, );
-
+                startNextRound();
             } else if (keyHandler.isKeyPressed() && !keyHandler.isEnterPressed()) {
-                GameMechanicsUtils.writeScoreToFile(data);
                 finishGame();
             }
         }

@@ -10,6 +10,8 @@ public class Data {
     private int[][] mapElements;
     private int[][] amountOfGhosts = new int[23][26];
     private String name = "Player";
+    private float hardLevel = 1;
+    private int remainingMoves = 100;
     public KeyHandler getKeyHandler() {
         return keyHandler;
     }
@@ -57,5 +59,21 @@ public class Data {
 
     public void setAmountOfGhosts(int [][] amountOfGhosts) {
         this.amountOfGhosts = amountOfGhosts;
+    }
+
+    public float getHardLevel() {
+        return hardLevel;
+    }
+
+    public void setHardLevel(float hardLevel) {
+        this.hardLevel = hardLevel;
+    }
+
+    public int getRemainingMoves() {
+        return remainingMoves;
+    }
+
+    public void setRemainingMoves(int remainingMoves) {
+        this.remainingMoves = remainingMoves;
     }
 }

@@ -19,22 +19,17 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyPressed(KeyEvent event) {
         int keyCode = event.getKeyCode();
-        System.out.println("is that work?");
         switch (keyCode) {
             case KeyEvent.VK_UP:
-                System.out.println("is that work");
                 upPressed = true;
                 break;
             case KeyEvent.VK_DOWN:
-                System.out.println("is that work");
                 downPressed = true;
                 break;
             case KeyEvent.VK_RIGHT:
-                System.out.println("is that work");
                 rightPressed = true;
                 break;
             case KeyEvent.VK_LEFT:
-                System.out.println("is that work");
                 leftPressed = true;
                 break;
             case KeyEvent.VK_ENTER:

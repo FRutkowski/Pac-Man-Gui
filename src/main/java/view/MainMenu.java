@@ -10,11 +10,10 @@ import java.io.IOException;
 
 public class MainMenu extends JPanel {
 
-    private JFrame mainFrame;
+    private final JFrame mainFrame;
     private JLabel title;
 
-    private Graphics2D g2d;
-    private Data data;
+    private final Data data;
 
     private JButton startButton;
     private JButton settingsButton;
@@ -24,21 +23,14 @@ public class MainMenu extends JPanel {
     private Image backGroundImage;
     private ImageIcon titleImage;
     private ImageIcon buttonStartImage1;
-    private ImageIcon buttonStartImage2;
     private ImageIcon buttonSettingsImage1;
-    private ImageIcon buttonSettingsImage2;
     private ImageIcon buttonTopPlayersImage1;
-    private ImageIcon buttonTopPlayersImage2;
     private ImageIcon buttonExitImage1;
-    private ImageIcon buttonExitImage2;
 
     private SettingsMenu settingsMenu;
     private TopPlayersMenu topPlayersMenu;
 
-    private GameController gameController;
-    private Player player;
-
-    public MainMenu(JFrame mainFrame, Data data) throws IOException {
+    public MainMenu(JFrame mainFrame, Data data) {
         super();
         this.mainFrame = mainFrame;
         this.data = data;
@@ -57,13 +49,9 @@ public class MainMenu extends JPanel {
         backGroundImage = new ImageIcon("src/main/resources/images/background-image.jpg").getImage();
         titleImage = new ImageIcon("src/main/resources/images/title.png");
         buttonStartImage1 = new ImageIcon("src/main/resources/images/button_start1.png");
-        buttonStartImage2 = new ImageIcon("src/main/resources/images/button_start2.png");
         buttonSettingsImage1 = new ImageIcon("src/main/resources/images/button_settings1.png");
-        buttonSettingsImage2 = new ImageIcon("src/main/resources/images/button_settings2.png");
         buttonTopPlayersImage1 = new ImageIcon("src/main/resources/images/button_topplayers1.png");
-        buttonTopPlayersImage2 = new ImageIcon("src/main/resources/images/button_topplayers2.png");
         buttonExitImage1 = new ImageIcon("src/main/resources/images/button_exit1.png");
-        buttonExitImage2 = new ImageIcon("src/main/resources/images/button_exit2.png");
     }
 
     public void initializeLabels() {
@@ -110,7 +98,7 @@ public class MainMenu extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-        g2d = (Graphics2D) g;
+        Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(backGroundImage, 0, 0, null);
     }
 
@@ -125,7 +113,7 @@ public class MainMenu extends JPanel {
     private void toggleViewToSettingsMenu() {
         this.setVisible(false);
         if (settingsMenu == null) {
-            settingsMenu = new SettingsMenu(this, mainFrame, data);
+            settingsMenu = new SettingsMenu(this, data);
             mainFrame.add(settingsMenu);
         } else settingsMenu.setVisible(true);
     }
@@ -133,7 +121,7 @@ public class MainMenu extends JPanel {
     private void toggleViewToTopPlayersMenu() {
         this.setVisible(false);
         if (topPlayersMenu == null) {
-            topPlayersMenu = new TopPlayersMenu(this, mainFrame, data);
+            topPlayersMenu = new TopPlayersMenu(this, data);
             mainFrame.add(topPlayersMenu);
         } else topPlayersMenu.setVisible(true);
     }
@@ -142,12 +130,11 @@ public class MainMenu extends JPanel {
         mainFrame.repaint();
         this.setVisible(false);
 
-        player = new Player();
-        Game game = new Game(mainFrame, data);
+        Player player = new Player();
+        Game game = new Game(data);
 
         mainFrame.add(game);
-        gameController = new GameController(this, game, data, player, mainFrame, false, 2850);
-//        gameController.startGame();
+        new GameController(this, game, data, player);
     }
 
 }

@@ -4,10 +4,9 @@ import model.Data;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 
 public class MainFrame extends JFrame {
-    public MainFrame() throws IOException {
+    public MainFrame() {
         super("Turn-Based Pac-Man");
         Data data = new Data();
         MainMenu mainMenuPanel = new MainMenu(this, data);

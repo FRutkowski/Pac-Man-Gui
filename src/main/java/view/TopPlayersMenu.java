@@ -9,28 +9,23 @@ import java.awt.event.ActionListener;
 
 public class TopPlayersMenu extends JPanel implements ActionListener {
 
-    private JFrame mainFrame;
     private JLabel title;
-
-    private Graphics2D g2d;
     private Data data;
-
     private JButton backButton;
 
-    private MainMenu mainMenuPanel;
+    private final MainMenu mainMenuPanel;
     private Image backGroundImage;
     private ImageIcon buttonBack1;
-    private ImageIcon buttonBack2;
     private ImageIcon topPlayersTitleImage;
 
-    public TopPlayersMenu(MainMenu mainMenu, JFrame mainFrame, Data data) {
+    public TopPlayersMenu(MainMenu mainMenu, Data data) {
         super();
-        this.mainFrame = mainFrame;
         this.mainMenuPanel = mainMenu;
 
         setLayout(null);
         setBounds(0, 0, 200, 200);
         setVisible(true);
+
         initializeImages();
         initializeButtons();
         initializeLabels();
@@ -41,7 +36,6 @@ public class TopPlayersMenu extends JPanel implements ActionListener {
         backGroundImage = new ImageIcon("src/main/resources/images/background-image.jpg").getImage();
         topPlayersTitleImage = new ImageIcon("src/main/resources/images/topplayers_title.png");
         buttonBack1 = new ImageIcon("src/main/resources/images/button_back.png");
-        buttonBack2 = new ImageIcon("src/main/resources/images/button_back1.png");
     }
 
     public void initializeLabels() {
@@ -64,7 +58,7 @@ public class TopPlayersMenu extends JPanel implements ActionListener {
 
     @Override
     protected void paintComponent(Graphics g) {
-        g2d = (Graphics2D) g;
+        Graphics2D g2d = (Graphics2D) g;
         g2d.drawImage(backGroundImage, 0, 0, null);
     }
 
