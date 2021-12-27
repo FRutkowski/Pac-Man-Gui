@@ -61,6 +61,7 @@ public class GameController implements Runnable {
         data.setMapElements(mapElements);
 
         if (game.name.getText().length() < 2 || game.name.getText() == null) return;
+        player.setName(game.name.getText());
         prepareGame();
         gameThread = new Thread(this);
         gameThread.start();
@@ -168,7 +169,7 @@ public class GameController implements Runnable {
             return;
         }
 
-        Thread.sleep(50);
+        Thread.sleep(500);
     }
 
     public void movePacManUp() {
@@ -389,7 +390,7 @@ public class GameController implements Runnable {
     }
 
     public void finishGame() throws IOException {
-        GameMechanicsUtils.writeScoreToFile(data);
+        GameMechanicsUtils.writeScoreToFile(player);
         game.setVisible(false);
         mainMenu.setVisible(true);
         gameOver = false;

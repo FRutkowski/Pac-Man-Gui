@@ -123,7 +123,10 @@ public class MainMenu extends JPanel {
         if (topPlayersMenu == null) {
             topPlayersMenu = new TopPlayersMenu(this, data);
             mainFrame.add(topPlayersMenu);
-        } else topPlayersMenu.setVisible(true);
+        } else {
+            topPlayersMenu.setVisible(true);
+            topPlayersMenu.refreshTopPlayers();
+        }
     }
 
     private void toggleViewToGame() throws IOException {
