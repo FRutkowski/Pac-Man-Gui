@@ -9,6 +9,7 @@ public class KeyHandler implements KeyListener {
     private boolean rightPressed;
     private boolean leftPressed;
     private boolean enterPressed;
+    private boolean keyPressed;
 
     @Override
     public void keyTyped(KeyEvent event) {
@@ -40,6 +41,7 @@ public class KeyHandler implements KeyListener {
                 enterPressed = true;
                 break;
         }
+        keyPressed = true;
     }
 
     @Override
@@ -62,6 +64,7 @@ public class KeyHandler implements KeyListener {
                 enterPressed = false;
                 break;
         }
+        keyPressed = false;
     }
 
     public boolean isUpPressed() {
@@ -86,5 +89,9 @@ public class KeyHandler implements KeyListener {
 
     public void setEnterPressed(boolean enterPressed) {
         this.enterPressed = enterPressed;
+    }
+
+    public boolean isKeyPressed() {
+        return keyPressed;
     }
 }

@@ -146,7 +146,7 @@ public class MainMenu extends JPanel {
         Game game = new Game(mainFrame, data);
 
         mainFrame.add(game);
-        gameController = new GameController(this, game, data, player);
+        gameController = new GameController(this, game, data, player, mainFrame, false, 2850);
 //        gameController.startGame();
     }
 

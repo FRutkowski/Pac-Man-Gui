@@ -6,9 +6,10 @@ import model.Player;
 import view.Game;
 import view.MainMenu;
 
-import java.awt.image.BufferedImage;
+import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -23,26 +24,37 @@ public class GameController implements Runnable {
     private int[][] map;
     private boolean isArrowPressed = false;
     private MainMenu mainMenu;
+    private final JFrame mainFrame;
     private List<Ghost> ghosts = new ArrayList<>();
-    public static boolean gameOver = false;
+    private int requiredPoints = 0;
+    private boolean gameOver = false;
 
-    public GameController(MainMenu mainMenu, Game game, Data data, Player player) throws FileNotFoundException {
+    public GameController(MainMenu mainMenu, Game game, Data data, Player player, JFrame mainFrame, boolean nextRound, int requiredPoints) throws FileNotFoundException {
         this.game = game;
         this.data = data;
         this.player = player;
         this.mainMenu = mainMenu;
+        this.mainFrame = mainFrame;
         this.keyHandler = new KeyHandler();
+        this.requiredPoints = requiredPoints;
         game.addKeyListener(keyHandler);
         game.setFocusable(true);
         game.requestFocus();
+
+        game.playButton.addActionListener(event -> {
+            try {
+                startGame();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public void startGame() throws FileNotFoundException {
         map = loadMap();
         data.setMap(map);
         mapElements = loadMap();
         data.setMapElements(mapElements);
-        game.playButton.addActionListener(event -> startGame());
-    }
-
-    public void startGame() {
         if (game.name.getText().length() < 2 || game.name.getText() == null) return;
         prepareGame();
         gameThread = new Thread(this);
@@ -67,7 +79,7 @@ public class GameController implements Runnable {
         while (gameThread != null) {
             try {
                 update();
-            } catch (InterruptedException e) {
+            } catch (InterruptedException | IOException e) {
                 e.printStackTrace();
             }
         }
@@ -96,12 +108,12 @@ public class GameController implements Runnable {
         map[11][14] = 14;
         map[11][13] = 20;
         map[11][11] = 25;
-        ghosts.add(new Ghost(11, 14, 10));
-        ghosts.add(new Ghost(11, 13, 14));
-        ghosts.add(new Ghost(11, 11, 18));
+//        ghosts.add(new Ghost(11, 14, 10));
+//        ghosts.add(new Ghost(11, 13, 14));
+//        ghosts.add(new Ghost(11, 11, 18));
     }
 
-    public void update() throws InterruptedException {
+    public void update() throws InterruptedException, IOException {
         isArrowPressed = false;
         if (keyHandler.isUpPressed()) movePacManUp();
         if (keyHandler.isDownPressed()) movePacManDown();
@@ -131,6 +143,12 @@ public class GameController implements Runnable {
             }
             game.repaint();
         }
+
+        if (player.getCurrentPoints() == requiredPoints) {
+            roundWon();
+            return;
+        }
+
         Thread.sleep(50);
     }
 
@@ -324,6 +342,18 @@ public class GameController implements Runnable {
         ghost.setLatestDirection(Direction.RIGHT);
     }
 
+    public void finishGame() {
+        game.setVisible(false);
+//                game.gameOver.setVisible(false);
+//                game.gameOver2.setVisible(false);
+        mainMenu.setVisible(true);
+        gameOver = false;
+        ghosts.clear();
+        gameThread = null;
+        data.setAmountOfGhosts(null);
+        data.setMap(null);
+    }
+
     public void gameOver() {
         game.drawMap = false;
         game.repaint();
@@ -333,15 +363,54 @@ public class GameController implements Runnable {
         while (gameOver) {
             System.out.println("czekam na enter");
             if (keyHandler.isEnterPressed()) {
-                game.setVisible(false);
-//                game.gameOver.setVisible(false);
-//                game.gameOver2.setVisible(false);
-                mainMenu.setVisible(true);
+                finishGame();
+            }
+        }
+    }
+
+    public void roundWon() throws IOException, InterruptedException {
+        game.drawMap = false;
+        game.repaint();
+        gameOver = true;
+        game.roundWon.setVisible(true);
+        game.roundWon2.setVisible(true);
+        Thread.sleep(5000);
+        while (gameOver) {
+            System.out.println("coś tu się wgl dzieje?");
+            System.out.println(gameOver);
+            if (keyHandler.isEnterPressed()) {
+                System.out.println("czy w ogole nastepna runda ma prawo bytu?");
+//                game.setVisible(false);
+                game.roundWon.setVisible(false);
+                game.roundWon2.setVisible(false);
+                game.drawMap = true;
                 gameOver = false;
-                ghosts.clear();
-                gameThread = null;
+//                data.setMap(null);
                 data.setAmountOfGhosts(null);
-                data.setMap(null);
+                data.setAmountOfGhosts(new int[23][26]);
+
+                System.out.println(player.getCurrentPoints());
+                ghosts.clear();
+                map = loadMap();
+                data.setMap(map);
+                mapElements = loadMap();
+                data.setMapElements(mapElements);
+                map[17][21] = 6;
+                initializeGhosts();
+                game.repaint();
+                requiredPoints = requiredPoints + 2850;
+                player.setRow(17);
+                player.setColumn(21);
+//                update();
+//                gameThread = null;
+//                startGame();
+//                Game game2 = new Game(mainFrame, data);
+//                mainFrame.add(game2);
+//                new GameController(mainMenu, game, data, player, mainFrame, true, );
+
+            } else if (keyHandler.isKeyPressed() && !keyHandler.isEnterPressed()) {
+                GameMechanicsUtils.writeScoreToFile(data);
+                finishGame();
             }
         }
     }

@@ -25,6 +25,8 @@ public class Game extends JPanel {
     public JLabel title;
     public JLabel gameOver;
     public JLabel gameOver2;
+    public JLabel roundWon;
+    public JLabel roundWon2;
     public JTextField name;
     public JButton playButton;
     public boolean drawMap = false;
@@ -41,7 +43,7 @@ public class Game extends JPanel {
         setVisible(true);
         setLayout(null);
         tileManager = new TileManager(this);
-
+        System.out.println("druga gra?");
         initializeImages();
         initializeButtons();
         initializeLabels();
@@ -82,6 +84,26 @@ public class Game extends JPanel {
         gameOver2.setForeground(Color.RED);
         gameOver2.setVisible(false);
         this.add(gameOver2);
+
+        roundWon = new JLabel("Round Won");
+        roundWon.setFont(new Font("Arial", Font.BOLD, 27));
+        roundWon.setBounds(390, 20, 400, 40);
+        roundWon.setOpaque(true);
+
+        roundWon.setBackground(Color.BLACK);
+        roundWon.setForeground(Color.GREEN);
+        roundWon.setVisible(false);
+        this.add(roundWon);
+
+        roundWon2 = new JLabel("Press enter to start next round");
+        roundWon2.setFont(new Font("Arial", Font.PLAIN, 20));
+        roundWon2.setBounds(320, 60, 400, 40);
+        roundWon2.setOpaque(true);
+
+        roundWon2.setBackground(Color.BLACK);
+        roundWon2.setForeground(Color.GREEN);
+        roundWon2.setVisible(false);
+        this.add(roundWon2);
     }
 
     public void initializeButtons() {
